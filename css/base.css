@@ -1,0 +1,21 @@
+* { padding: 0; margin: 0; line-height: 1.3em; -moz-boz-sizing: border-box; box-sizing: border-box; }
+:root { font-size: 12pt; font-family: 'Trebuchet MS', 'Open Sans', sans-serif; }
+body { min-height: 100vh; }
+article, aside, footer, header, main, nav, section { display: block; }
+a:link, a:visited { color: blue; text-decoration: none; }
+a:link:hover, a:link:active, a:visited:hover, a:visited:active { color: black; text-decoration: underline; }
+table { border-collapse: collapse; border-spacing: 0; }
+[hidden] { display: none; }
+ul, ol { margin-left: 1.5em; }
+
+/* HEADERS */
+body > header { text-align: center; }
+h1 { font-family: 'Open Sans'; }
+
+/* SIDE BAR INFO */
+aside {
+	float: right;
+	max-width: 30vw;
+	border: 1px solid black;
+	padding: 0px 5px 2px;
+}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Railways of America, an 18&#xd7;&#xd7; Game</title>
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans"/>
+<link rel="stylesheet" href="/css/base.css"/>
+<script>
+// For anything requiring a loaded dependency
+window.onReady = function(cb){
+var c=0,a=function(){if(!c){if(document.readyState=='complete'){cb();c=true}}}
+if(Element.prototype.addEventListener)document.addEventListener('readystatechange',a)
+else if(Element.prototype.attachEvent)document.attachEvent('onreadystatechange',a)
+};
+// Build Basic Game Object
+window.game18xx={scale:{x:.3,y:.3},defaults:{}}
+</script>
+<script src="res/phaser-arcade-physics.min.js" async></script>
+<script src="res/zepto.min.js" async></script>
+<script src="res/polyfill.js" async></script>
+<script src="js/operating.js" async></script>
+<script src="js/mainmenu.js" async></script>
+<script src="js/world.js" async></script>
+<script src="js/load.js" async></script>
+<script>
+// Wait for document ready
+window.onReady(function() {
+	game18xx.phaser = new Phaser.Game(800, 520, Phaser.CANVAS, 'map')
+	game18xx.phaser.state.add('Boot', game18xx.Boot)
+	game18xx.phaser.state.add('Load', game18xx.Load)
+	game18xx.phaser.state.add('MainMenu', game18xx.MainMenu)
+//	game18xx.phaser.state.add('GameStart', game18xx.GameStart)
+//	game18xx.phaser.state.add('rndStock', game18xx.rndStock)
+	game18xx.phaser.state.add('rndOperating', game18xx.rndOperating)
+//	game18xx.phaser.state.add('rndEnd', game18xx.rndEnd)
+//	game18xx.phaser.state.add('GameEnd', game18xx.GameEnd)
+	game18xx.phaser.state.start('Boot')
+})
+</script>
+</head>
+<body>
+<header>
+	<h1>Railways of America</h1>
+	<h2>An 18&#xd7;&#xd7; Game</h2>
+</header>
+<main>
+In <u>American Railways</u> you are an 18th century robber baron building and managing railroad companies for your own financial gains.
+</main>
+<aside>
+	<h1>Players</h1>
+	<section><h1>Sam Grundman</h1>
+		<ul>
+			<li>$6000</li>
+			<li>B&amp;O: 50 Shares, President</li>
+			<li>Boston: 30 Shares</li>
+			<li>Yadkin Valley</li>
+		</ul>
+	</section>
+	<h1>Companies</h1>
+	<section><h1>Yadkin Valley</h1>
+		<ul>
+		</ul>
+	</section>
+	<h1>Railways</h1>
+	<section><h1>B&amp;O</h1>
+		<ul>
+		</ul>
+	</section>
+</aside>
+<section id="map">
+</section>
+<section id="market">
+</section>
+</body>
+</html>
