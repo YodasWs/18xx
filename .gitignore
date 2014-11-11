@@ -1,0 +1,7 @@
+# .gitignore
+*~
+Thumbs.db
+ehthumbs.db
+httpd.conf
+*.swo
+*.swp
