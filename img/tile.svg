@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100" height="100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<style type="text/css"><![CDATA[
+path { fill: none; stroke: black; stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; stroke-miterlimit: 1; }
+]]></style>
+<path d="M 0,0 l 50,50" id="hex" transform="translate(50,50)" />
+<script type="text/javascript"><![CDATA[
+String.prototype.trim=function(chars){return this.replace(new RegExp('^['+(chars||'\uffef\ua0\\s')+']+|['+(chars||'\uffef\ua0\\s')+']+$','g'),'')}
+;window.search=(function(q){
+	var i=0,s={},p
+	q=q.trim('?').split(';');q=q.join('&').split('&')
+	for(;i<q.length;i++){
+		p=q[i].split('=')
+		switch(p[0]){
+			case 'r':p[0]='radius';break
+			case 'h':p[0]='height';break
+			case 'w':p[0]='width';break
+			case 'a':p[0]='angle';break
+		}
+		s[p[0]]=parseInt(p[1],10)
+	}
+	return s
+})(window.location.search)
+if(window.search.width){
+	document.getElementsByTagName('svg')[0].setAttribute('width',window.search.width)
+	if(!window.search.height)
+		document.getElementsByTagName('svg')[0].setAttribute('height',window.search.width)
+}
+if(window.search.height){
+	document.getElementsByTagName('svg')[0].setAttribute('height',window.search.height)
+	if(!window.search.width)
+		document.getElementsByTagName('svg')[0].setAttribute('width',window.search.height)
+}
+if(window.search.radius&&!window.search.width&&!window.search.height){
+	document.getElementsByTagName('svg')[0].setAttribute('width',window.search.radius*2)
+	document.getElementsByTagName('svg')[0].setAttribute('height',window.search.radius*2)
+}
+;(function(id,r,s){
+	var α=s?s:0, d='', i=0, r=r||50
+	if(!id||!document.getElementById(id))return false
+	for(;i<7;i++){
+		d+=' L '+(Math.cos(α*Math.PI/180)*r)+','+(Math.sin(α*Math.PI/180)*r)
+		α+=60;if(α>=360)α-=360
+	}
+	d='M '+d.trim('L ')
+	document.getElementById(id).setAttribute('d', d)
+	document.getElementById(id).setAttribute('transform', 'translate('+
+document.getElementsByTagName('svg')[0].getAttribute('width')/2
++','+
+document.getElementsByTagName('svg')[0].getAttribute('height')/2
++')')
+})('hex', window.search.radius||50, window.search.angle||0)
+]]></script>
+</svg>
