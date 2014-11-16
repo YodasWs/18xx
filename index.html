@@ -20,6 +20,7 @@ window.game18xx={scale:{x:.3,y:.3},defaults:{}}
 <script src="res/polyfill.js" async></script>
 <script src="js/operating.js" async></script>
 <script src="js/mainmenu.js" async></script>
+<script src="js/track.js" async></script>
 <script src="js/world.js" async></script>
 <script src="js/load.js" async></script>
 <script>
@@ -46,7 +47,7 @@ window.onReady(function() {
 <main>
 In <u>American Railways</u> you are an 18th century robber baron building and managing railroad companies for your own financial gains.
 </main>
-<aside>
+<aside id="players">
 	<h1>Players</h1>
 	<section><h1>Sam Grundman</h1>
 		<ul>
@@ -56,11 +57,15 @@ In <u>American Railways</u> you are an 18th century robber baron building and ma
 			<li>Yadkin Valley</li>
 		</ul>
 	</section>
+</aside>
+<aside id="companies">
 	<h1>Companies</h1>
 	<section><h1>Yadkin Valley</h1>
 		<ul>
 		</ul>
 	</section>
+</aside>
+<aside id="railways">
 	<h1>Railways</h1>
 	<section><h1>B&amp;O</h1>
 		<ul>

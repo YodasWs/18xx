@@ -1,16 +1,25 @@
 // If we don't have jQuery/Zepto, we do require $.extend()
-try{$=$||{}}catch(e){$={}};
-if (!$.extend)
-$.extend = function() {
-	if (!arguments.length) return {};
-	if (arguments.length < 2) return arguments[0];
-	var i,j,obj = arguments[0];
+Object.extendIfEmpty = function() {
+	if (!arguments.length) return {}
+	if (arguments.length < 2) return arguments[0]
+	var i,j,obj = arguments[0]
 	for (i=1; i<arguments.length; i++) {
-		if (typeof arguments[i] != 'object') continue;
-		for (j in arguments[i]) {
-			if (arguments[i].hasOwnProperty(j)) obj[j] = arguments[i][j];
-		}
+		if (typeof arguments[i] != 'object') continue
+		for (j in arguments[i])
+			if (arguments[i].hasOwnProperty(j) && !obj.hasOwnProperty(j)) obj[j] = arguments[i][j]
 	}
+	return obj
+}
+Object.extend = function() {
+	if (!arguments.length) return {}
+	if (arguments.length < 2) return arguments[0]
+	var i,j,obj = arguments[0]
+	for (i=1; i<arguments.length; i++) {
+		if (typeof arguments[i] != 'object') continue
+		for (j in arguments[i])
+			if (arguments[i].hasOwnProperty(j)) obj[j] = arguments[i][j]
+	}
+	return obj
 }
 // JavaScript 1.8, rather than jQuery/Zepto $.each()
 if (!Array.prototype.forEach)

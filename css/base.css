@@ -14,6 +14,7 @@ h1 { font-family: 'Open Sans'; }
 
 /* SIDE BAR INFO */
 aside {
+	display: none;
 	float: right;
 	max-width: 30vw;
 	border: 1px solid black;

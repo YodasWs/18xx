@@ -16,11 +16,13 @@ game18xx.Load.prototype.preload = function() {
 //	console.log('"Load" loading')
 	// TODO: Load Game Images
 	// Load Terrain Images
-	game18xx.phaser.load.image('tile', '/img/tile.svg?r=60&a=90');
 	game18xx.world.terrain.forEach(function(val) {
-		if (val == 'grass') return
 		game18xx.phaser.load.image('terrain.' + val, '/img/terrain/' + val + (game18xx.world.angle ? game18xx.world.angle : '') + '.png');
 	});
+	game18xx.phaser.load.image('activeTile', '/img/activeTile.png');
+	game18xx.phaser.load.image('rotate.acw', '/img/acw.png');
+	game18xx.phaser.load.image('rotate.cw', '/img/cw.png');
+	game18xx.phaser.load.image('tile', '/img/tile.png');
 };
 game18xx.Load.prototype.create = function() {
 //	console.log('"Load" created')
@@ -39,4 +41,14 @@ game18xx.getTileY = function(row, col) {
 		return row * 148 * game18xx.scale.y;
 	}
 	return row * 172 * game18xx.scale.y + (col % 2 ? 86 * game18xx.scale.y : 0);
+}
+game18xx.getTileFromXY = function(x, y) {
+	var row, col
+	if (game18xx.world.angle == 90) {
+		row = y / 148 / game18xx.scale.y;
+		col = (x - (row % 2 ? 0 : 86 * game18xx.scale.y)) / 172 / game18xx.scale.x;
+	}
+	row = (y - (col % 2 ? 86 * game18xx.scale.y : 0)) / 172 / game18xx.scale.y;
+	col = (x - 20) / 148 / game18xx.scale.x;
+	console.log('Tile ' + row + ', ' + col)
 }
