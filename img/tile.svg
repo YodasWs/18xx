@@ -5,7 +5,7 @@ path { fill: none; stroke: black; stroke-width: 1; stroke-linecap: round; stroke
 ]]></style>
 <path d="M 0,0 l 50,50" id="hex" transform="translate(50,50)" />
 <script type="text/javascript"><![CDATA[
-String.prototype.trim=function(chars){return this.replace(new RegExp('^['+(chars||'\uffef\ua0\\s')+']+|['+(chars||'\uffef\ua0\\s')+']+$','g'),'')}
+String.prototype.trim=function(chars){return this.replace(new RegExp('^['+(chars||'\\uffef\\ua0\\s')+']+|['+(chars||'\\uffef\\ua0\\s')+']+$','g'),'')}
 ;window.search=(function(q){
 	var i=0,s={},p
 	q=q.trim('?').split(';');q=q.join('&').split('&')
