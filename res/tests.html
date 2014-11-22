@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Unit Tests of 18xx</title>
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css"/>
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+<script>window.game18xx={scale:{x:.3,y:.3},defaults:{}}</script>
+<script src="/js/components.js" async></script>
+<script src="/res/polyfill.js" async></script>
+<script>
+//QUnit.config.reorder = false
+QUnit.testStart(function(){
+	game18xx.companies = new game18xx.List(game18xx.Company)
+	game18xx.railways = new game18xx.List(game18xx.Railway)
+	game18xx.cities = new game18xx.List(game18xx.City)
+})
+QUnit.test('game18xx.List',function(a){
+	var l=[0,1,2,3]
+
+	a.strictEqual(l.indexOf(0), 0, 'Did not replace Array.prototype.indexOf, returned index 0')
+	a.equal(l.indexOf(1), 1, 'Did not replace Array.prototype.indexOf, returned index 1')
+	a.equal(l.indexOf(4), -1, 'Did not replace Array.prototype.indexOf, returned -1 for not found')
+})
+QUnit.test('game18xx.Company',function(a){
+	var i=0, rw1='B&O'
+
+	a.throws(function() {
+		game18xx.companies.add('B&O')
+	}, TypeError, 'Cannot add string as Company')
+	a.throws(function() {
+		game18xx.companies.add(new game18xx.Railway('B&O', 90))
+	}, TypeError, 'Cannot add Railway as Company')
+	a.ok(game18xx.companies.add(new game18xx.Company(rw1, 40)), rw1+' Company added')
+
+	i = game18xx.companies.indexOf(rw1)
+
+	a.equal(game18xx.companies[i].name, 'B&O', 'B&O created')
+	a.equal(game18xx.companies[i].price, 40, 'Company priced at 40')
+})
+QUnit.test('game18xx.Railway',function(a){
+	var i=0, rw1='B&O'
+
+	a.throws(function() {
+		game18xx.railways.add('B&O')
+	}, TypeError, 'Cannot add string as Railway')
+	a.strictEqual(game18xx.railways.indexOf(rw1), false, rw1+' is not in List of Railways')
+	a.ok(game18xx.railways.add(new game18xx.Railway(rw1, 90)), rw1+' Railway added')
+	a.ok(game18xx.railways.indexOf(rw1) !== false, rw1+' Railway found')
+	a.ok(!game18xx.railways.indexOf(rw1+'2') !== false, rw1+'2 Railway not found')
+	a.strictEqual(game18xx.railways.indexOf(rw1), 0, rw1+' is index 0')
+	a.ok(!game18xx.railways.add(new game18xx.Railway(rw1, 90)), 'Cannot create new '+rw1+' Railway, already exists')
+})
+QUnit.test('game18xx.City',function(a){
+	var city='Baltimore', rw1='B&O',
+		i=0, b=0
+	game18xx.railways.add(new game18xx.Railway(rw1, 90))
+
+	a.throws(function() {
+		game18xx.cities.add('Baltimore')
+	}, TypeError, 'Cannot add string as City')
+	a.ok(game18xx.cities.indexOf(city) === false, city+' City not found')
+	a.ok(game18xx.cities.add(new game18xx.City(city, 1, 40, {row: 8, col: 7})), city+' City added')
+
+	i = game18xx.cities.indexOf(city)
+
+	a.equal(game18xx.cities[i].name, city, 'City named "'+city+'"')
+	a.equal(game18xx.cities[i].hasStation(rw1), false, city+' does not contain a '+rw1+' Station')
+})
+QUnit.test('game18xx.Railway.buildStation',function(a){
+	var city='Baltimore', rw1='B&O', rw2='Boston',
+		i=0, b=0
+	game18xx.railways.add(new game18xx.Railway(rw1, 90))
+	game18xx.railways.add(new game18xx.Railway(rw2, 50))
+	b = game18xx.railways.indexOf(rw1)
+	game18xx.cities.add(new game18xx.City(city, 1, 40, {row: 8, col: 7}))
+
+	a.ok(!game18xx.cities[i].hasStation(rw1), city+' does not contain a B&O Station')
+	a.ok(game18xx.railways[b].buildStation(city), rw1+' built a Station in ' + city)
+	a.ok(game18xx.cities[i].hasStation(rw1), city+' does contain a B&O Station')
+	a.ok(!game18xx.railways[b].buildStation(city), rw1+' could not build another Station in '+city)
+
+	b = game18xx.railways.indexOf(rw2)
+	a.ok(!game18xx.railways[b].buildStation(city), rw2+' could not build a Station in '+city)
+})
+QUnit.test('game18xx.City.canPassThru',function(a){
+	var c1='Batimore', c2='New York', rw1='Boston', rw2='B&O', rw3='PRR',
+		i=0, b=0
+
+	game18xx.cities.add(new game18xx.City(c1, 1, 40, {row: 8, col: 7}))
+	game18xx.cities.add(new game18xx.City(c2, 2, 60, {row: 5, col: 10}))
+	i = game18xx.cities.indexOf(c1)
+	game18xx.railways.add(new game18xx.Railway(rw1, 50))
+	game18xx.railways.add(new game18xx.Railway(rw2, 90))
+	game18xx.railways.add(new game18xx.Railway(rw3, 60))
+	b = game18xx.railways.indexOf(rw1)
+
+	a.ok(game18xx.cities[i].canPassThru(rw1), rw1+' can pass through empty '+c1)
+	a.ok(game18xx.cities[i].canPassThru(rw2), rw2+' can pass through empty '+c1)
+
+	game18xx.railways[b].buildStation(c1)
+
+	a.ok(game18xx.cities[i].canPassThru(rw1), rw1+' can pass through full '+c1)
+	a.ok(!game18xx.cities[i].canPassThru(rw2), rw2+' cannot pass through full '+c1)
+
+	i = game18xx.cities.indexOf(c2)
+	game18xx.railways[b].buildStation(c2)
+
+	a.ok(game18xx.cities[i].canPassThru(rw1), rw1+' can pass through occupied '+c2)
+	a.ok(game18xx.cities[i].canPassThru(rw2), rw2+' can pass through occupied '+c2)
+
+	b = game18xx.railways.indexOf(rw2)
+	game18xx.railways[b].buildStation(c2)
+	a.ok(game18xx.cities[i].canPassThru(rw1), rw1+' can pass through full '+c2)
+	a.ok(game18xx.cities[i].canPassThru(rw2), rw2+' can pass through full '+c2)
+
+	b = game18xx.railways.indexOf(rw3)
+	a.ok(!game18xx.cities[i].canPassThru(rw3), rw3+' cannot pass through full '+c2)
+})
+</script>
+</head>
+<body>
+<div id="qunit"></div>
+</body>
+</html>
