@@ -17,12 +17,12 @@ game18xx.Load.prototype.preload = function() {
 	// TODO: Load Game Images
 	// Load Terrain Images
 	game18xx.world.terrain.forEach(function(val) {
-		game18xx.phaser.load.image('terrain.' + val, '/img/terrain/' + val + (game18xx.world.angle ? game18xx.world.angle : '') + '.png');
+		game18xx.phaser.load.image('terrain.' + val, 'img/terrain/' + val + (game18xx.world.angle ? game18xx.world.angle : '') + '.png');
 	});
-	game18xx.phaser.load.image('activeTile', '/img/activeTile.png');
-	game18xx.phaser.load.image('rotate.acw', '/img/acw.png');
-	game18xx.phaser.load.image('rotate.cw', '/img/cw.png');
-	game18xx.phaser.load.image('tile', '/img/tile.png');
+	game18xx.phaser.load.image('activeTile', 'img/activeTile.png');
+	game18xx.phaser.load.image('rotate.acw', 'img/acw.png');
+	game18xx.phaser.load.image('rotate.cw', 'img/cw.png');
+	game18xx.phaser.load.image('tile', 'img/tile.png');
 };
 game18xx.Load.prototype.create = function() {
 //	console.log('"Load" created')
