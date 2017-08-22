@@ -1,5 +1,7 @@
 # 18xx
 
+Try it now in your browser: https://yodasws.github.io/18xx/
+
 ## Resources
 
 ### JavaScript Frameworks
